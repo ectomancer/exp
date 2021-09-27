@@ -5,7 +5,7 @@ Numeric = TypeVar('Numeric', int, float, complex)
 
 def exp(z: Numeric) -> Numeric:
     """Complex exponential function using math.exp
-    AZEXP ported from FORTRAN 77.
+    AZEXP subroutine ported from FORTRAN 77.
     SUBROUTINE AZEXP(AR, AI, BR, BI)
     C***BEGIN PROLOGUE  AZEXP
     C***REFER TO  ZBESH,ZBESI,ZBESJ,ZBESK,ZBESY,ZAIRY,ZBIRY
@@ -32,23 +32,21 @@ def exp(z: Numeric) -> Numeric:
     return result
 
 
-if __name__ == '__main__':
-    print(exp(1j))
-    print(exp(2+3j), math.exp(2)*exp(3j))
-    print(exp(2-3j), math.exp(2)*exp(-3j))
-    print(exp(-2+3j), math.exp(-2)*exp(3j))
-    print(exp(-2-3j), math.exp(-2)*exp(-3j))
-    print(exp(1))
-    print(exp(0))
-    print(exp(-1))
-    print(exp(math.inf))
-    print(exp(-math.inf))
-    
-    import cmath
+def arg(number: complex) -> float:
+    """Calculate arg function of a complex number."""
+    return math.atan2(number.imag, number.real)
 
-    print(cmath.exp(1j))
-    print(cmath.exp(2+3j))
-    print(cmath.exp(2-3j))
-    print(cmath.exp(-2+3j))
-    print(cmath.exp(-2-3j))
-    
+
+def ln(z: Numeric) -> Numeric:
+    """Complex natural logarithm using math.log"""
+    result = complex(math.log(abs(z)), arg(z))
+    if not result.imag:
+        if int(result.real) == result.real:
+            return int(result.real)
+        else:
+            return result.real
+    return result
+
+
+if __name__ == '__main__':
+    pass
